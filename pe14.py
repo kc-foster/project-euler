@@ -16,31 +16,9 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 '''
 
-def compute():
-
-	cachelist = [[] for _ in range(1000)]
-	currentseq = 0
-
-	for n in range(1, 1000, 1):
-		seqobj = seq(n)
-		if currentseq == 0:	# cache is empty
-			for i, element in enumerate(seqobj):
-				cachelist[currentseq][i] = element
-		else:
-			i = 0
-			cachelen = 0
-			index = 0
-			for working_element in seqobj:			# for each element in current sequence, look into the cachelist and pull cache_elements for matches
-				for cache in cachelist:
-					for cache_element in cache:
-						if cache_element == working_element		# get the first element that matches
-							cachelen = len(cachelist[i])
-							index = cachelist[i].index(cache_element)
-
-		currentseq += 1
-
-def seq(n):	# yield collatz sequence values for each number given to it one at a time, so that i can choose to check them against sequences in cache either one at a time or in intervals
+def seq(n):
 	a = n
+	yield a
 	while a > 1:
 		if a % 2 == 0:
 			a = a // 2
@@ -48,5 +26,65 @@ def seq(n):	# yield collatz sequence values for each number given to it one at a
 		else:
 			a = ((3*a) + 1)
 			yield a
+
+def checkcache(element, cache):
+
+	i = 0
+	subseq_length = 0
+	cache_len = len(cache)
+	for cache_element in cache:
+		if cache_element == element:
+			subseq_length = (cache_len - cache.index(element))
+			return subseq_length
+		elif cache_len > i:
+			continue
+		i += 1
+	return 0						# nothing found for this cache
+
+def compute():
+
+	N = 100
+	cache = [[] for _ in range(N)]
+	save_n_seq = [0 for _ in range(N)]
+	seq_length_save = 0
+
+
+	for n in range(1, N, 1):
+
+		length = 0
+		seqobj = seq(n)
+
+		for working_element in seqobj:
+
+			# put working element in correct cache first (cache n)
+			# then check previous caches for element 	 (cache 0 to n-1)
+			# if found record length of cache length - element index
+			# else add one to length
+
+			cache[n].append(working_element)
+			result = 0
+
+			for j in range(0, n - 1, 1):
+
+				result = checkcache(working_element, cache[j])
+				if result == 0:
+					continue
+				else:
+					length += result
+					break
+
+			if result == 0:
+				length += 1
+
+		save_n_seq[n] = length
+		seq_length_save = max(length, seq_length_save)
+
+	for i, seq in enumerate(save_n_seq):
+		if seq_length_save == seq:
+			print(i)
+
+	print(seq_length_save)
+
+# 6789 for N = 100 this sounds super wrong
 
 compute()
