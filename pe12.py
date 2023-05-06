@@ -1,4 +1,6 @@
 #! python3
+# What is the value of the first triangle number to have over five hundred divisors?
+# Finished
 
 import math
 
@@ -10,14 +12,8 @@ def num_divisors(n):
 
 	return res
 
-def compute():
-	a = b = 0
-	while True:
-		b += 1
-		a += b
+n = 25
+while num_divisors(n*(n+1)//2) < 501:
+	n += 25
 
-		if num_divisors(a) >= 500:
-			print(a)
-			break
-
-compute()
+print(f"{n}: {n*(n+1)//2}")

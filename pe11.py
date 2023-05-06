@@ -1,4 +1,6 @@
 #! python3
+# What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
+# Finished
 
 # 48477312 left right [78, 78, 96, 83]
 # 51267216 up [66, 91, 88, 97]

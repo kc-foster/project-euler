@@ -1,37 +1,24 @@
 #! python3
+# Problem 14: Which starting number, under one million, produces the longest chain of Collatz sequence?
+# Finished
 
-
-def compute():
-
-	cachelist = [[] for _ in range(1000)]
-	currentseq = 0
-
-	for n in range(1, 1000, 1):
-		seqobj = seq(n)
-		if currentseq == 0:	# cache is empty
-			for i, element in enumerate(seqobj):
-				cachelist[currentseq][i] = element
+def seq(n):
+	seq = []
+	while n != 1:
+		if n % 2 == 0:
+			n = n // 2
 		else:
-			i = 0
-			cachelen = 0
-			index = 0
-			for working_element in seqobj:			# for each element in current sequence, look into the cachelist and pull cache_elements for matches
-				for cache in cachelist:
-					for cache_element in cache:
-						if cache_element == working_element		# get the first element that matches
-							cachelen = len(cachelist[i])
-							index = cachelist[i].index(cache_element)
+			n = (((n << 1) + n + 1) // 2)
+		seq.append(n)
+	return seq
 
-		currentseq += 1
+seq_lengths = {}
+for n in range(1000000, 1, -1):
 
-def seq(n):	# yield collatz sequence values for each number given to it one at a time, so that i can choose to check them against sequences in cache either one at a time or in intervals
-	a = n
-	while a > 1:
-		if a % 2 == 0:
-			a = a // 2
-			yield a
-		else:
-			a = ((3*a) + 1)
-			yield a
+	sequence = seq(n)
+	seq_len = len(sequence)
+	seq_lengths.update({n: seq_len})
 
-compute()
+
+max_length = max(seq_lengths.values())
+print(list(seq_lengths.keys())[list(seq_lengths.values()).index(max_length)])

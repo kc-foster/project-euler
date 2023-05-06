@@ -1,7 +1,6 @@
 #! python3
-# m > n, coprime, and both not odd
-
-N = 500
+# Problem 9: There exists exactly one Pythagorean triplet for which a + b + c = 1000. Find the product abc.
+# Finished
 
 import math
 
@@ -11,6 +10,8 @@ def mysort(coprimelist, i):
 	else:
 		return None
 
+
+N = 500
 coprimelist = []
 
 for a in range(N):								# coprime list
@@ -65,7 +66,7 @@ for i in range(len(lastlist)):
 		a = (k * (m**2 - n**2))
 		b = (k * (2*m*n))
 		c = (k * (m**2 + n**2))
-		if (a + b + c == 1100):
+		if (a + b + c == 1000):
 			print(a, b, c, (a * b * c))
 			break
 		else:
