@@ -2,6 +2,9 @@
 # How many different ways can £2 be made using any number of coins?
 # Work in Progress
 
+import pdb
+from array import array
+
 unique_seqs = [[]]
 limit = 200
 
@@ -16,36 +19,46 @@ f_inc = 1
 
 x = y = a = b = c = d = e = f = 0
 
-for x_sum in range(0, limit + 1, x_inc):
+for x_sum in range(0, limit, x_inc):
 
 	y = 0
 
-	for y_sum in range(x_sum, limit + 1, y_inc):
+	for y_sum in range(0, limit - x_sum, y_inc):
 
 		a = 0
 
-		for a_sum in range(x_sum + y_sum, limit + 1, a_inc):
+		a_start = x_sum + y_sum
+
+		for a_sum in range(0, limit - a_start, a_inc):
 
 			b = 0
 
-			for b_sum in range(x_sum + y_sum + a_sum, limit + 1, b_inc):
+			b_start = x_sum + y_sum + a_sum
+
+			for b_sum in range(0, limit - b_start, b_inc):
 
 				c = 0
 
-				for c_sum in range(x_sum + y_sum + a_sum + b_sum, limit + 1, c_inc):
+				c_start = x_sum + y_sum + a_sum + b_sum
+
+				for c_sum in range(0, limit - c_start, c_inc):
 
 					d = 0
 
-					for d_sum in range(x_sum + y_sum + a_sum + b_sum + c_sum, limit + 1, d_inc):
+					d_start = x_sum + y_sum + a_sum + b_sum + c_sum
+
+					for d_sum in range(0, limit - d_start, d_inc):
 
 						e = 0
 
-						for e_sum in range(x_sum + y_sum + a_sum + b_sum + c_sum + d_sum, limit + 1, e_inc):
+						e_start = x_sum + y_sum + a_sum + b_sum + c_sum + d_sum
 
-							if (limit - (x_sum + y_sum + a_sum + b_sum + c_sum + d_sum + e_sum)) > 0:
+						for e_sum in range(0, limit - e_start, e_inc):
+
+							if (limit - (x_sum + y_sum + a_sum + b_sum + c_sum + d_sum + e_sum)):
 								f = (limit - (x_sum + y_sum + a_sum + b_sum + c_sum + d_sum + e_sum))
 
-							temp_seqs = [x, y, a, b, c, d, e, f]
+							temp_seqs = array('B', [x, y, a, b, c, d, e, f])
 							unique_seqs.append(temp_seqs)
 
 							f = 0
@@ -65,6 +78,6 @@ for x_sum in range(0, limit + 1, x_inc):
 	x += 1
 
 unique_seqs.pop(0)
-print(unique_seqs)
-print("\n")
+print(len(unique_seqs))
+
 
